@@ -23,35 +23,35 @@
         android:text="@string/label_welcome"/>
 
     <LinearLayout
-        android:paddingTop="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
         android:orientation="vertical"
         android:padding="8dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:paddingTop="12dp">
 
         <Button
             android:id="@+id/btnCreateAppointment"
+            style="@style/MenuButton"
             android:layout_width="match_parent"
             android:layout_marginTop="12dp"
             android:drawableEnd="@drawable/ic_add_circle"
-            style="@style/MenuButton"
             android:text="@string/btn_create_appointment" />
 
         <Button
             android:id="@+id/btnMyAppointments"
+            style="@style/MenuButton"
             android:layout_width="match_parent"
             android:layout_marginTop="12dp"
             android:drawableEnd="@drawable/ic_schedule"
-            style="@style/MenuButton"
             android:text="@string/btn_my_appointments" />
 
         <Button
             android:id="@+id/btnLogout"
+            style="@style/MenuButton"
             android:layout_width="match_parent"
             android:layout_marginTop="12dp"
             android:drawableEnd="@drawable/ic_power_off"
-            style="@style/MenuButton"
             android:text="@string/btn_log_out" />
 
     </LinearLayout>

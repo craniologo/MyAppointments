@@ -2,16 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_gradient"
     android:orientation="vertical"
-    android:padding="12dp"
     tools:context=".MainActivity">
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:height="0dp"
         android:background="@drawable/bg_gradient"
@@ -39,7 +38,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
-            android:textColor="@color/white" />
+            android:minHeight="48dp"
+            android:textColor="@color/white"
+            android:autofillHints="" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -52,7 +53,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:textColor="@color/white" />
+            android:minHeight="48dp"
+            android:textColor="@color/white"
+            android:autofillHints="" />
 
         <Button
             android:id="@+id/btnLogin"
@@ -61,7 +64,7 @@
             android:layout_marginTop="12dp"
             android:background="@color/colorAccent"
             android:text="@string/btn_login"
-            android:textColor="@color/blancoTransparent" />
+            android:textColor="#000000" />
 
         <TextView
             android:id="@+id/tvGoToRegister"
