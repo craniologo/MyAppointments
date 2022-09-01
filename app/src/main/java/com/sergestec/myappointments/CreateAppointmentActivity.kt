@@ -3,6 +3,8 @@ package com.sergestec.myappointments
 import android.app.DatePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+//import android.support.v7.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.RadioButton
@@ -20,8 +22,13 @@ class CreateAppointmentActivity : AppCompatActivity() {
         setContentView(R.layout.activity_create_appointment)
 
         btnNext.setOnClickListener {
-            cvStep1.visibility = View.GONE
-            cvStep2.visibility = View.VISIBLE
+            if (etDescription.text.toString().length < 3) {
+                etDescription.error = getString(R.string.validate_appointment_description)
+            } else {
+                // continue to step 2
+                cvStep1.visibility = View.GONE
+                cvStep2.visibility = View.VISIBLE
+            }
         }
 
         btnConfirmAppointment.setOnClickListener {
@@ -105,4 +112,25 @@ class CreateAppointmentActivity : AppCompatActivity() {
 
     private fun Int.twoDigits()
         = if (this>10) this.toString() else "0$this"
+
+    override fun onBackPressed() {
+        if (cvStep2.visibility == View.VISIBLE) {
+            cvStep2.visibility = View.GONE
+            cvStep1.visibility = View.VISIBLE
+        } else if(cvStep1.visibility == View.VISIBLE) {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("¿Estás seguro que deseas salir?")
+            builder.setMessage("Si abandonas el registro, los datos que habías agregado se perderán.")
+            builder.setPositiveButton("Si, salir") { _, _ ->
+                finish()
+            }
+            builder.setNegativeButton("Continuar registro") { dialog, _ ->
+                dialog.dismiss()
+            }
+
+            val dialog = builder.create()
+            dialog.show()
+        }
+
+    }
 }
