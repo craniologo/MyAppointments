@@ -1,9 +1,9 @@
-package com.sergestec.myappointments
+package com.sergestec.myappointments.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.sergestec.myappointments.R
 import com.sergestec.myappointments.model.Appointment
 import kotlinx.android.synthetic.main.activity_appointments.*
 

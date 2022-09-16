@@ -1,8 +1,9 @@
-package com.sergestec.myappointments
+package com.sergestec.myappointments.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.sergestec.myappointments.R
 import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : AppCompatActivity() {

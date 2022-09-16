@@ -1,9 +1,10 @@
-package com.sergestec.myappointments
+package com.sergestec.myappointments.ui
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.sergestec.myappointments.R
 import com.sergestec.myappointments.model.Appointment
 import kotlinx.android.synthetic.main.item_appointment.view.*
 

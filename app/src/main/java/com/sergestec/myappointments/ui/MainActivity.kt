@@ -1,14 +1,15 @@
-package com.sergestec.myappointments
+package com.sergestec.myappointments.ui
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
+import com.sergestec.myappointments.PreferenceHelper
 import kotlinx.android.synthetic.main.activity_main.*
 import com.sergestec.myappointments.PreferenceHelper.get
 import com.sergestec.myappointments.PreferenceHelper.set
+import com.sergestec.myappointments.R
 
 class MainActivity : AppCompatActivity() {
 
