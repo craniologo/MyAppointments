@@ -1,17 +1,17 @@
 package com.sergestec.myappointments.ui
 import android.app.DatePickerDialog
 import android.os.Bundle
-//import android.telecom.Call
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.RadioButton
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.sergestec.myappointments.R
 import com.sergestec.myappointments.io.ApiService
-//import com.sergestec.myappointments.io.response.SimpleResponse
+import com.sergestec.myappointments.model.Doctor
+import com.sergestec.myappointments.model.Schedule
 import com.sergestec.myappointments.model.Specialty
 import kotlinx.android.synthetic.main.activity_create_appointment.*
 import kotlinx.android.synthetic.main.card_view_step_one.*
@@ -21,7 +21,6 @@ import retrofit2.Response
 import retrofit2.Call
 import retrofit2.Callback
 import java.util.*
-//import javax.security.auth.callback.Callback
 import kotlin.collections.ArrayList
 
 class CreateAppointmentActivity : AppCompatActivity() {
@@ -71,9 +70,56 @@ class CreateAppointmentActivity : AppCompatActivity() {
         }
 
         loadSpecialties()
+        listedSpecialtyChanges()
+        listenDoctorsAndDateChanges()
 
-        val doctorOptions = arrayOf("Doctor A", "Doctor B", "Doctor C")
-        spinnerDoctors.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, doctorOptions)
+        }
+
+    private fun listenDoctorsAndDateChanges() {
+        // doctors
+        spinnerDoctors.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+            override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val doctor = adapter?.getItemAtPosition(position) as Doctor
+                loadHours(doctor.id, etScheduledDate.text.toString())
+            }
+        }
+
+        // scheduled date
+        etScheduledDate.addTextChangedListener(object: TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                val doctor = spinnerDoctors.selectedItem as Doctor
+                loadHours(doctor.id, etScheduledDate.text.toString())
+            }
+
+        })
+
+    }
+
+    private fun loadHours(doctorId: Int, date: String) {
+        val call = apiService.getHours(doctorId, date)
+        call.enqueue(object: Callback<Schedule> {
+            override fun onFailure(call: Call<Schedule>, t: Throwable) {
+                Toast.makeText(this@CreateAppointmentActivity, getString(R.string.error_loading_hours), Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onResponse(call: Call<Schedule>, response: Response<Schedule>) {
+                if (response.isSuccessful) {
+                    val schedule = response.body()
+                    Toast.makeText(this@CreateAppointmentActivity, "morning: ${schedule?.morning?.size}, afternoon: ${schedule?.afternoon?.size}", Toast.LENGTH_SHORT).show()
+
+                }
+            }
+        })
+        // Toast.makeText(this, "doctor: $doctorId, date: $date", Toast.LENGTH_SHORT).show()
     }
 
     private fun loadSpecialties() {
@@ -85,18 +131,60 @@ class CreateAppointmentActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call<ArrayList<Specialty>>, response: Response<ArrayList<Specialty>>){
-                if (response.isSuccessful) { // (200...300)
-                    val specialties = response.body()
+                if (response.isSuccessful) {  // (200...300)
+                    response.body()?.let {
+                        //val specialties = response.body()
 
-                    val specialtyOptions = ArrayList<String>()
-                        specialties?.forEach {
-                            specialtyOptions.add(it.name)
-                        }
-                    spinnerSpecialties.adapter = ArrayAdapter<String>(this@CreateAppointmentActivity, android.R.layout.simple_list_item_1, specialtyOptions)
+                    val specialties = it.toMutableList()
+                    spinnerSpecialties.adapter = ArrayAdapter<Specialty>(
+                        this@CreateAppointmentActivity,
+                        android.R.layout.simple_list_item_1,
+                        specialties)
+                    }
                 }
             }
         })
+    }
 
+    private fun listedSpecialtyChanges() {
+        spinnerSpecialties.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+            override fun onItemSelected(adapter: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val specialty = adapter?.getItemAtPosition(position) as Specialty
+                loadDoctors(specialty.id)
+            }
+
+        }
+    }
+
+    private fun loadDoctors(specialtyId: Int) {
+        val call = apiService.getDoctors(specialtyId)
+        call.enqueue(object: Callback<ArrayList<Doctor>> {
+            override fun onFailure(call: Call<ArrayList<Doctor>>, t: Throwable) {
+                Toast.makeText(this@CreateAppointmentActivity, getString(R.string.error_loading_doctors), Toast.LENGTH_SHORT).show()
+                finish()
+            }
+            override fun onResponse(
+                call: Call<ArrayList<Doctor>>,
+                response: Response<ArrayList<Doctor>>
+            ) {
+                if (response.isSuccessful) {
+                    response.body()?.let {
+                        val doctors = it.toMutableList()
+
+                        //val doctors = ArrayList<Doctor>()
+                        spinnerDoctors.adapter = ArrayAdapter<Doctor>(
+                            this@CreateAppointmentActivity,
+                            android.R.layout.simple_list_item_1,
+                            doctors)
+                    }
+
+                }
+            }
+
+        })
     }
 
     private fun showAppointmentDataToConfirm () {
