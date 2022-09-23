@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package com.sergestec.myappointments
+package com.sergestec.myappointments.util
 
 import android.content.Context
 import android.content.SharedPreferences

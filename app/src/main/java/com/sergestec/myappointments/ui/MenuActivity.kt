@@ -3,8 +3,8 @@ package com.sergestec.myappointments.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.sergestec.myappointments.PreferenceHelper
-import com.sergestec.myappointments.PreferenceHelper.set
+import com.sergestec.myappointments.util.PreferenceHelper
+import com.sergestec.myappointments.util.PreferenceHelper.set
 import com.sergestec.myappointments.R
 import kotlinx.android.synthetic.main.activity_menu.*
 
