@@ -54,7 +54,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun performLogin() {
-        val call = apiService.postLogin(etEmail.text.toString(), etPassword.text.toString())
+        val email = etEmail.text.toString()
+        val password = etPassword.text.toString()
+
+        if (email.trim().isEmpty() || password.trim().isEmpty()) {
+            toast(getString(R.string.error_empty_credentials))
+            return
+        }
+
+        val call = apiService.postLogin(email, password)
         call.enqueue(object: Callback<LoginResponse> {
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 t.localizedMessage?.let { toast(it) }
@@ -68,6 +76,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     if (loginResponse.success) {
                         createSessionPreference(loginResponse.jwt)
+                        toast(getString(R.string.welcome_name, loginResponse.user.name))
                         goToMenuActivity()
                     } else {
                         toast(getString(R.string.error_invalid_credentials))
