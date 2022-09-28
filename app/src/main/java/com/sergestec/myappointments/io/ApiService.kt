@@ -2,6 +2,7 @@ package com.sergestec.myappointments.io
 
 //import android.telecom.Call
 import com.sergestec.myappointments.io.response.LoginResponse
+import com.sergestec.myappointments.model.Appointment
 import com.sergestec.myappointments.model.Doctor
 import com.sergestec.myappointments.model.Schedule
 import com.sergestec.myappointments.model.Specialty
@@ -30,8 +31,13 @@ interface ApiService {
     @POST("logout")
     fun postLogout(@Header ("Authorization") authHeader: String): Call<Void>
 
+    @GET("appointments")
+    fun getAppointments(@Header ("Authorization") authHeader: String):
+            Call<ArrayList<Appointment>>
+
     companion object Factory {
         private const val BASE_URL = "http://159.223.98.199/api/"
+        //private const val BASE_URL = "http://10.0.2.2:8000/api/"
 
         fun create(): ApiService {
             val interceptor = HttpLoggingInterceptor()
