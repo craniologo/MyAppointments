@@ -16,7 +16,6 @@ import com.sergestec.myappointments.util.toast
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Callback
-//import javax.security.auth.callback.Callback
 
 class MainActivity : AppCompatActivity() {
 

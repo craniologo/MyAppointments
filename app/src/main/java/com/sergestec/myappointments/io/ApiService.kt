@@ -2,6 +2,7 @@ package com.sergestec.myappointments.io
 
 //import android.telecom.Call
 import com.sergestec.myappointments.io.response.LoginResponse
+import com.sergestec.myappointments.io.response.SimpleResponse
 import com.sergestec.myappointments.model.Appointment
 import com.sergestec.myappointments.model.Doctor
 import com.sergestec.myappointments.model.Schedule
@@ -34,6 +35,18 @@ interface ApiService {
     @GET("appointments")
     fun getAppointments(@Header ("Authorization") authHeader: String):
             Call<ArrayList<Appointment>>
+
+    @POST("appointments")
+    @Headers("Accept: application/java")
+    fun storeAppointment(
+        @Header ("Authorization") authHeader: String,
+        @Query("description") description: String,
+        @Query("specialty_id") specialtyId: Int,
+            @Query("doctor_id") doctorId: Int,
+        @Query("scheduled_date") scheduledDate: String,
+        @Query("scheduled_time")scheduledTime: String,
+        @Query("type") type: String
+    ): Call<SimpleResponse>
 
     companion object Factory {
         private const val BASE_URL = "http://159.223.98.199/api/"

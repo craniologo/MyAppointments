@@ -1,11 +1,11 @@
 package com.sergestec.myappointments.ui
 
+import android.transition.AutoTransition
+import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-//import androidx.transition.AutoTransition
-//import androidx.transition.TransitionManager
 import com.sergestec.myappointments.R
 import com.sergestec.myappointments.model.Appointment
 import kotlinx.android.synthetic.main.item_appointment.view.*
@@ -31,6 +31,8 @@ class AppointmentAdapter
             tvCreatedAt.text = context.getString(R.string.item_appointment_created_at, appointment.createdAt)
 
             ibExpand.setOnClickListener {
+                TransitionManager.beginDelayedTransition(parent as ViewGroup, AutoTransition())
+
                 if (linearLayoutDetails.visibility == View.VISIBLE) {
                     linearLayoutDetails.visibility = View.GONE
                     ibExpand.setImageResource(R.drawable.ic_expand_more)
