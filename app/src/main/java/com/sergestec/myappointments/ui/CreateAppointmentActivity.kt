@@ -333,7 +333,7 @@ class CreateAppointmentActivity : AppCompatActivity() {
     }
 
     private fun Int.twoDigits()
-        = if (this>10) this.toString() else "0$this"
+        = if (this>=10) this.toString() else "0$this"
 
     override fun onBackPressed() {
         when {

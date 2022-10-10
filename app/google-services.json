@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "152001847041",
+    "project_id": "my-appointments-a39e1",
+    "storage_bucket": "my-appointments-a39e1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:152001847041:android:0a79345485ec606ba84500",
+        "android_client_info": {
+          "package_name": "com.sergestec.myappointments"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "152001847041-g8g8p15t8ckea3qm1ugkvs11glbefiac.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZ60Qb1U0kY67hnaYGf0w_FBFvvRvPw24"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "152001847041-g8g8p15t8ckea3qm1ugkvs11glbefiac.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

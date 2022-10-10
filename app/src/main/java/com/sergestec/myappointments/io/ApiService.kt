@@ -42,11 +42,20 @@ interface ApiService {
         @Header ("Authorization") authHeader: String,
         @Query("description") description: String,
         @Query("specialty_id") specialtyId: Int,
-            @Query("doctor_id") doctorId: Int,
+        @Query("doctor_id") doctorId: Int,
         @Query("scheduled_date") scheduledDate: String,
         @Query("scheduled_time")scheduledTime: String,
         @Query("type") type: String
     ): Call<SimpleResponse>
+
+    @POST("register")
+    @Headers("Accept: application/java")
+    fun postRegister(
+        @Query("name") name: String,
+        @Query("email") email: String,
+        @Query("password") password: String,
+        @Query("password_confirmation") password_confirmation: String
+    ): Call<LoginResponse>
 
     companion object Factory {
         private const val BASE_URL = "http://159.223.98.199/api/"
