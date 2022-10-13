@@ -2,9 +2,11 @@ package com.sergestec.myappointments.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.messaging.FirebaseMessaging
 import com.sergestec.myappointments.R
 import com.sergestec.myappointments.io.ApiService
 import com.sergestec.myappointments.io.response.LoginResponse
@@ -34,6 +36,14 @@ class MainActivity : AppCompatActivity() {
             //  shared preferences
             //  SQLite
             //  files
+
+        FirebaseMessaging.getInstance().token.addOnSuccessListener { result ->
+            if(result != null){
+                //fbToken
+                Log.d("FCMService", result)
+                // DO your thing with your firebase token
+            }
+        }
 
         val preferences = PreferenceHelper.defaultPrefs(this)
         if (preferences["jwt", ""].contains("."))
@@ -76,7 +86,7 @@ class MainActivity : AppCompatActivity() {
                     if (loginResponse.success) {
                         createSessionPreference(loginResponse.jwt)
                         toast(getString(R.string.welcome_name, loginResponse.user.name))
-                        goToMenuActivity(isUserInput: true)
+                        goToMenuActivity(true)
                     } else {
                         toast(getString(R.string.error_invalid_credentials))
                     }

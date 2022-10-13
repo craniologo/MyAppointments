@@ -3,9 +3,14 @@ package com.sergestec.myappointments.ui
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
+//import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.messaging.FirebaseMessaging
 import com.sergestec.myappointments.R
 import com.sergestec.myappointments.io.ApiService
+import com.sergestec.myappointments.model.User
 import com.sergestec.myappointments.util.PreferenceHelper
 import com.sergestec.myappointments.util.PreferenceHelper.get
 import com.sergestec.myappointments.util.PreferenceHelper.set
@@ -28,10 +33,12 @@ class MenuActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
-
+/*
         val storeToken = intent.getBooleanExtra("store_token", false)
         if (storeToken)
             storeToken()
+
+ */
 
         btnCreateAppointment.setOnClickListener {
             val intent = Intent(this, CreateAppointmentActivity::class.java)
@@ -47,7 +54,7 @@ class MenuActivity : AppCompatActivity() {
             perFormLogout()
         }
     }
-
+/*
     private fun storeToken() {
         val jwt = preferences["jwt", ""]
         val authHeader = "Bearer $jwt"
@@ -70,6 +77,8 @@ class MenuActivity : AppCompatActivity() {
             })
         }
     }
+
+ */
 
     private fun perFormLogout() {
         val jwt = preferences["jwt", ""]

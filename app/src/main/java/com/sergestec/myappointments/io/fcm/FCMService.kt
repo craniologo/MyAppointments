@@ -3,6 +3,7 @@ package com.sergestec.myappointments.io.fcm
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
@@ -31,22 +32,21 @@ class FCMService : FirebaseMessagingService() {
         PreferenceHelper.defaultPrefs(this)
     }
 
-    override fun onNewToken(newToken: String?) {
+    override fun onNewToken(newToken: String) {
         super.onNewToken(newToken)
 
-        if (newToken == null)
-            return
-
         val jwt = preferences["jwt", ""]
-        if (jwt.isEmpty())
+
+        if (jwt.isEmpty()) {
             return
+        }
 
         val authHeader = "Bearer $jwt"
 
         val call = apiService.postToken(authHeader, newToken)
         call.enqueue(object: Callback<Void> {
             override fun onFailure(call: Call<Void>, t: Throwable) {
-                toast(t.localizedMessage)
+                t.localizedMessage?.let { toast(it) }
             }
 
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
@@ -93,6 +93,12 @@ class FCMService : FirebaseMessagingService() {
             if (body != null)
                 sendNotification(title, body)
         }
+
+        // Check if message contains a notification payload.
+        remoteMessage.notification.let {
+            Log.d(TAG, "Message Notification Body: " + remoteMessage.notification?.body)
+        }
+
     }
     // [END receive_message]
 
