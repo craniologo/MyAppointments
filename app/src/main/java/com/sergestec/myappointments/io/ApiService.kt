@@ -3,10 +3,7 @@ package com.sergestec.myappointments.io
 //import android.telecom.Call
 import com.sergestec.myappointments.io.response.LoginResponse
 import com.sergestec.myappointments.io.response.SimpleResponse
-import com.sergestec.myappointments.model.Appointment
-import com.sergestec.myappointments.model.Doctor
-import com.sergestec.myappointments.model.Schedule
-import com.sergestec.myappointments.model.Specialty
+import com.sergestec.myappointments.model.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -15,6 +12,20 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface ApiService {
+
+    @GET("user")
+    @Headers("Accept: application/json")
+    fun getUser(@Header("Authorization") authHeader: String): Call<User>
+
+    @POST("user")
+    @Headers("Accept: application/json")
+    fun postUser(
+        @Header("Authorization") authHeader: String,
+        @Query("name") name: String,
+        @Query("phone") phone: String,
+        @Query("address") address: String
+    ): Call<Void>
+
     @GET("specialties")
     fun getSpecialties(): Call<ArrayList<Specialty>>
 
@@ -56,6 +67,12 @@ interface ApiService {
         @Query("password") password: String,
         @Query("password_confirmation") password_confirmation: String
     ): Call<LoginResponse>
+
+    @POST("fcm/token")
+    fun postToken(
+        @Header ("Authorization") authHeader: String,
+        @Query("device_token") token: String
+    ): Call<Void>
 
     companion object Factory {
         private const val BASE_URL = "http://159.223.98.199/api/"

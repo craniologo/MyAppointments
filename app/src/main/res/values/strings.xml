@@ -55,4 +55,5 @@
     <string name="error_register_empty_fields">Por favor complete todos los campos</string>
     <string name="error_register_passwords_do_not_match">Las credenciales no coinciden</string>
     <string name="error_register_validation">Ocurrió un error en el registro</string>
+    <string name="default_notification_channel_id">default_channel</string>
 </resources>

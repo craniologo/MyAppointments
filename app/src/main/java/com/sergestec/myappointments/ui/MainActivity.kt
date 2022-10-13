@@ -1,21 +1,21 @@
 package com.sergestec.myappointments.ui
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
-import com.sergestec.myappointments.util.PreferenceHelper
-import kotlinx.android.synthetic.main.activity_main.*
-import com.sergestec.myappointments.util.PreferenceHelper.get
-import com.sergestec.myappointments.util.PreferenceHelper.set
 import com.sergestec.myappointments.R
 import com.sergestec.myappointments.io.ApiService
 import com.sergestec.myappointments.io.response.LoginResponse
+import com.sergestec.myappointments.util.PreferenceHelper
+import com.sergestec.myappointments.util.PreferenceHelper.get
+import com.sergestec.myappointments.util.PreferenceHelper.set
 import com.sergestec.myappointments.util.toast
+import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
                     if (loginResponse.success) {
                         createSessionPreference(loginResponse.jwt)
                         toast(getString(R.string.welcome_name, loginResponse.user.name))
-                        goToMenuActivity()
+                        goToMenuActivity(isUserInput: true)
                     } else {
                         toast(getString(R.string.error_invalid_credentials))
                     }
@@ -92,8 +92,13 @@ class MainActivity : AppCompatActivity() {
         preferences["jwt"] = jwt
     }
 
-    private fun goToMenuActivity() {
+    private fun goToMenuActivity(isUserInput: Boolean = false) {
         val intent = Intent(this, MenuActivity::class.java)
+
+        if (isUserInput) {
+            intent.putExtra("store_token", true)
+        }
+
         startActivity(intent)
         finish()
     }
