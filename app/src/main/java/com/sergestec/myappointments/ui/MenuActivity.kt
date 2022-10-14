@@ -33,12 +33,10 @@ class MenuActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
-/*
+
         val storeToken = intent.getBooleanExtra("store_token", false)
         if (storeToken)
             storeToken()
-
- */
 
         btnCreateAppointment.setOnClickListener {
             val intent = Intent(this, CreateAppointmentActivity::class.java)
@@ -54,13 +52,18 @@ class MenuActivity : AppCompatActivity() {
             perFormLogout()
         }
     }
-/*
+
     private fun storeToken() {
         val jwt = preferences["jwt", ""]
         val authHeader = "Bearer $jwt"
 
-        FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(this) { instanceIdResult ->
-            val deviceToken = instanceIdResult.token
+        FirebaseMessaging.getInstance().token.addOnSuccessListener { instanceIdResult ->
+            if(instanceIdResult!= null){
+                //fbToken
+                Log.d("FCMService", instanceIdResult)
+                // DO your thing with your firebase token
+            }
+            val deviceToken = instanceIdResult
 
             val call = apiService.postToken(authHeader, deviceToken)
             call.enqueue(object: Callback<Void> {
@@ -75,10 +78,9 @@ class MenuActivity : AppCompatActivity() {
                     }
                 }
             })
+
         }
     }
-
- */
 
     private fun perFormLogout() {
         val jwt = preferences["jwt", ""]

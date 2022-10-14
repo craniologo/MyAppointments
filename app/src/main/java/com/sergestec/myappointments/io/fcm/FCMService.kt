@@ -9,11 +9,13 @@ import android.media.RingtoneManager
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.sergestec.myappointments.R
 import com.sergestec.myappointments.io.ApiService
 import com.sergestec.myappointments.ui.MainActivity
+import com.sergestec.myappointments.ui.MenuActivity
 import com.sergestec.myappointments.util.PreferenceHelper
 import com.sergestec.myappointments.util.PreferenceHelper.get
 import com.sergestec.myappointments.util.toast
@@ -36,19 +38,16 @@ class FCMService : FirebaseMessagingService() {
         super.onNewToken(newToken)
 
         val jwt = preferences["jwt", ""]
-
-        if (jwt.isEmpty()) {
+        if (jwt.isEmpty())
             return
-        }
 
         val authHeader = "Bearer $jwt"
 
         val call = apiService.postToken(authHeader, newToken)
         call.enqueue(object: Callback<Void> {
             override fun onFailure(call: Call<Void>, t: Throwable) {
-                t.localizedMessage?.let { toast(it) }
+                toast(t.localizedMessage)
             }
-
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
                     Log.d(TAG, "Token registrado correctamente")
