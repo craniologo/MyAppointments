@@ -37,6 +37,9 @@ class FCMService : FirebaseMessagingService() {
     override fun onNewToken(newToken: String) {
         super.onNewToken(newToken)
 
+        if (newToken == null)
+            return
+
         val jwt = preferences["jwt", ""]
         if (jwt.isEmpty())
             return
