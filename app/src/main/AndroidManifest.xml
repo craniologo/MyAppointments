@@ -3,11 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.sergestec.myappointments">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
-        android:usesCleartextTraffic="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -15,26 +14,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyAppointments"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.ProfileActivity"
+            android:parentActivityName=".ui.MenuActivity" />
+        <activity
             android:name=".ui.AppointmentsActivity"
-            android:parentActivityName=".ui.MenuActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".ui.MenuActivity" />
         <activity
             android:name=".ui.CreateAppointmentActivity"
-            android:parentActivityName=".ui.MenuActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".ui.MenuActivity" />
         <activity
             android:name=".ui.MenuActivity"
             android:exported="false" />
         <activity
             android:name=".ui.RegisterActivity"
-            android:launchMode="singleInstance"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleInstance" />
         <activity
             android:name=".ui.MainActivity"
-            android:launchMode="singleInstance"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,13 +45,13 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".io.fcm.FCMService"
+        <service
+            android:name=".io.fcm.FCMService"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
     </application>
 
 </manifest>

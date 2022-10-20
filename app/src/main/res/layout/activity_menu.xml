@@ -31,6 +31,15 @@
         android:paddingTop="12dp">
 
         <Button
+            android:id="@+id/btnProfile"
+            android:onClick="editProfile"
+            android:layout_width="match_parent"
+            android:layout_marginTop="12dp"
+            android:drawableEnd="@drawable/ic_profile"
+            style="@style/MenuButton"
+            android:text="@string/btn_edit_profile"/>
+
+        <Button
             android:id="@+id/btnCreateAppointment"
             style="@style/MenuButton"
             android:layout_width="match_parent"

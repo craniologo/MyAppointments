@@ -53,6 +53,11 @@ class MenuActivity : AppCompatActivity() {
         }
     }
 
+    fun editProfile( view: View) {
+        val intent = Intent( this, ProfileActivity::class.java)
+        startActivity(intent)
+    }
+
     private fun storeToken() {
         val jwt = preferences["jwt", ""]
         val authHeader = "Bearer $jwt"

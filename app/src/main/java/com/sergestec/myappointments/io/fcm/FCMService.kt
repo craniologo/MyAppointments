@@ -95,12 +95,6 @@ class FCMService : FirebaseMessagingService() {
             if (body != null)
                 sendNotification(title, body)
         }
-
-        // Check if message contains a notification payload.
-        remoteMessage.notification.let {
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.notification?.body)
-        }
-
     }
     // [END receive_message]
 
