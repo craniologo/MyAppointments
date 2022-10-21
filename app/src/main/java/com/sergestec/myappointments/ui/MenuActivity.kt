@@ -30,6 +30,11 @@ class MenuActivity : AppCompatActivity() {
         PreferenceHelper.defaultPrefs(this)
     }
 
+    private val authHeader by lazy {
+        val jwt = preferences["jwt", ""]
+        "Bearer $jwt"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
@@ -38,9 +43,16 @@ class MenuActivity : AppCompatActivity() {
         if (storeToken)
             storeToken()
 
+        setOnClickListeners()
+    }
+
+    private fun setOnClickListeners() {
+        btnProfile.setOnClickListener {
+            editProfile()
+        }
+
         btnCreateAppointment.setOnClickListener {
-            val intent = Intent(this, CreateAppointmentActivity::class.java)
-            startActivity(intent)
+            createAppointment(it)
         }
 
         btnMyAppointments.setOnClickListener {
@@ -53,15 +65,36 @@ class MenuActivity : AppCompatActivity() {
         }
     }
 
-    fun editProfile( view: View) {
+    private fun createAppointment(view: View) {
+        val call = apiService.getUser(authHeader)
+        call.enqueue(object: Callback<User> {
+            override fun onFailure(call: Call<User>, t: Throwable) {
+                toast(t.localizedMessage)
+            }
+            override fun onResponse(call: Call<User>, response: Response<User>) {
+                if (response. isSuccessful) {
+                    val user = response.body()
+                    val phoneLength = user?.phone?.length ?: 0
+
+                    if (phoneLength >= 6) {
+                        val intent = Intent(this@MenuActivity, CreateAppointmentActivity::class.java)
+                        startActivity(intent)
+                    } else {
+                        Snackbar.make(view, R.string.you_need_a_phone, Snackbar.LENGTH_LONG).show()
+                    }
+                }
+            }
+
+
+        })
+    }
+
+    private fun editProfile() {
         val intent = Intent( this, ProfileActivity::class.java)
         startActivity(intent)
     }
 
     private fun storeToken() {
-        val jwt = preferences["jwt", ""]
-        val authHeader = "Bearer $jwt"
-
         FirebaseMessaging.getInstance().token.addOnSuccessListener { instanceIdResult ->
             if(instanceIdResult!= null){
                 //fbToken
@@ -88,8 +121,7 @@ class MenuActivity : AppCompatActivity() {
     }
 
     private fun perFormLogout() {
-        val jwt = preferences["jwt", ""]
-        val call = apiService.postLogout("Bearer: $jwt")
+        val call = apiService.postLogout(authHeader)
         call.enqueue(object: Callback<Void> {
             override fun onFailure(call: Call<Void>, t: Throwable) {
 
